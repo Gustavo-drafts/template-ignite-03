@@ -23,6 +23,22 @@
       "category": "Curso",
       "price": 1980,
       "createdAt": "2022-09-17T00:18:26.991Z"
+    },
+    {
+      "description": "Dev App",
+      "price": 15000,
+      "category": "Venda",
+      "type": "income",
+      "createdAt": "2022-09-22T21:13:42.218Z",
+      "id": 4
+    },
+    {
+      "description": "Acaí",
+      "price": 5,
+      "category": "Alimentação",
+      "type": "outcome",
+      "createdAt": "2022-09-22T21:38:36.262Z",
+      "id": 5
     }
   ]
 }
