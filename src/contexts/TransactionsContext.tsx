@@ -1,4 +1,5 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { ReactNode, useCallback, useEffect, useState } from "react";
+import { createContext } from "use-context-selector";
 import { api } from "../lib/axios";
 
 // Interface movida de Transactions/ index.tsx
@@ -40,9 +41,9 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
   // Movido de Transactions/ index.tsx
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
-// efetuar busca de dado por meio de 'string' dentro da api
-// usando axios
-  async function fetchTransactions(query?: string) {
+  // efetuar busca de dado por meio de 'string' dentro da api
+  // usando axios
+  const fetchTransactions = useCallback(async (query?: string) => {
     const response = await api.get('/transactions', {
       params: {
         _sort: 'createdAt',
@@ -52,12 +53,12 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     })
 
     setTransactions(response.data);
-  }
+  }, [])
 
   // sintaxe de post
-  async function createTransaction(data: CreateTransactionInput) { 
+  const createTransaction = useCallback(async (data: CreateTransactionInput) => {
     const { description, category, price, type } = data;
-    
+
     const response = await api.post('transactions', {
       description,
       price,
@@ -65,15 +66,15 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
       type,
       createdAt: new Date(), // criado separadamente pois JSON server não oferece por padrão
     })
-    
-    setTransactions(state => [ response.data, ...state ]);
-  }
+
+    setTransactions(state => [response.data, ...state])
+  }, [])
 
 
 
   useEffect(() => {
     fetchTransactions();
-  }, [])
+  }, [fetchTransactions])
   // --------------
 
 
